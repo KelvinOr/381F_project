@@ -6,10 +6,10 @@
     <body>
         <div id="center">
             <h1>Sign Up</h1>
-            <form action='/api/createUser' onsubmit="return check()" method="get" id='signForm'>
+            <form action='/api/createUser' method="post" id='signForm'>
                 <input type="text" name="userName" id='usN' placeholder="Username" required><br><br>
                 <input type="password" name="password" id='pw' placeholder="Password" required><br><br>
-                <input type="confirm_pw" id='cpw' placeholder="Confirm Password" name="confirm_pw" required><br><br>
+                <input type="password" id='cpw' placeholder="Confirm Password" required><br><br>
             </form>
             <button onclick="check()">Sign Up</button>
         </div>

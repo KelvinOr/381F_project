@@ -9,6 +9,7 @@ db.once('open', function() {
 });
 
 var UserSchema = mongoose.Schema({
+    uid: {type: String, required: true},
     userName: {type: String, required: true},
     password: {type: String, required: true},
 })

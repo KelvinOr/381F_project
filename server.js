@@ -1,5 +1,6 @@
 const express = require('express');
-const req = require('express/lib/request')
+const req = require('express/lib/request');
+const { redirect } = require('express/lib/response');
 const res = require('express/lib/response')
 const path = require('path');
 const app = express()
@@ -9,28 +10,44 @@ var { mongoose, User, Inventory } = require('./mongo/mongoController');
 
 app.set('view engine', 'ejs')
 
+app.use(express.static(__dirname + '/public'));
+
 app.get('/', (req, res) => {
   res.render('pages/index', {});
 });
 
-app.post('/api/createUser', async (req, res) => {
+app.get('/login', (req, res) => {
+  res.render('pages/login', {});
+});
+
+app.get('/signup', (req, res) => {
+  res.render('pages/signup', {});
+});
+
+app.get('/api/createUser', async (req, res, next) => {
     let data = {
       "userName": req.query.userName,
       "password": req.query.password,
     } 
-    User.findOne(data, function (err, result) {
-      if (err) {
-          console.log('Error finding user: ', err)
-          } else {
-            if (result == null){
-              var newUser = new User(data);
-              newUser.save();
-              res.send(newUser);
-            } else{
-              res.send("User already exists");
+    if (data.userName != null && data.password != null) {
+      User.findOne(data, function (err, result) {
+        if (err) {
+            console.log('Error finding user: ', err)
+            } else {
+              if (result == null){
+                var newUser = new User(data);
+                newUser.save();
+                res.send(newUser);
+                res.redirect('/login');
+                next;
+              } else{
+                res.send("User already exists");
+              }
             }
-          }
-    });
+      });
+    } else {
+      res.send("Please enter a username and password"); 
+    }
 });
 
 app.get('/api/login', (req, res) => {
@@ -43,11 +60,11 @@ app.get('/api/login', (req, res) => {
         console.log('Error finding user: ', err)
         } else {
           console.log('User Created: ', result)
-          res.writeHead(200, {'Content-Type': 'text/plain'});
           res.send(JSON.stringify(result))
         }
     })
-    });
+    
+});
 
 app.get('/api/getInventory', (req, res) => {
     var uid = req.query.uid;
@@ -59,13 +76,29 @@ app.get('/api/getInventory', (req, res) => {
           } else {
             if (result == null) {
               var data =  Inventory.find().limit(10).skip(startItem).limit(endItem);
-              res.writeHead(200, {'Content-Type': 'application/json'});
               res.send(JSON.stringify(data));
             } else {
               res.send('Please Login');
             }
           }
     });
+});
+
+app.get('/api/getInventoryOne', (req, res) => {
+  var uid = req.query.uid;
+  var itemid = req.query.itemid;
+  User.findOne({"_id": Object(uid)}, function (err, result) {
+    if (err) {
+        console.log('Error finding user: ', err)
+        } else {
+          if (result == null) {
+            var data =  Inventory.findOne({"_id": Object(itemid)});
+            res.send(JSON.stringify(data));
+          } else {
+            res.send('Please Login');
+          }
+        }
+  });
 });
 
 app.post('/api/addInventory', (req, res) => {

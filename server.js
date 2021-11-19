@@ -45,12 +45,12 @@ app.get('/Home', (req, res) => {
             Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, function(err, dataresult) {
               if (dataresult.length > 0) {
                 if (dataresult[0].inventory_id == null) {
-                  res.render('pages/Home', {data: []});
+                  res.render('pages/Home', {data: [], start: startItem});
                 } else {
-                  res.render('pages/Home', {data: dataresult});
+                  res.render('pages/Home', {data: dataresult, start: startItem});
                 }
               } else{
-                res.render('pages/Home', {data: []});
+                res.render('pages/Home', {data: [], start: startItem});
               }
             }).skip(Number(startItem)).limit(10);
             
@@ -65,14 +65,15 @@ app.get('/addItem', (req, res) => {
   res.render('pages/insertItem', {});
 });
 
-app.get('/viewItem', (req,res) =>{
-  var inventory_id = req.query.inventory_id;
-  Inventory.findOne({inventory_id: inventory_id}, function (err, result) {
+app.get('/viewItem', (req,res) => {
+  var inventory_id = req.query.oid;
+  Inventory.findOne({"inventory_id": inventory_id}, function (err, result) {
     if (err) {
         console.log('Error finding item: ', err)
         res.redirect('/');
         } else {
           if (result != []) {
+            console.log(result);
             res.render('pages/viewItem', {data: result});
           } else {
             res.redirect('/');

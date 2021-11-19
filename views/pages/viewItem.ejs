@@ -4,11 +4,13 @@
 
     </head>
     <body onload="onload()" id="body_center">
-        
+        <div>
+            
+        </div>
     </body>
     <script>
         function onload(){
-            if(localStorage.getItem('token') == null){
+            if(localStorage.getItem('uid') == null){
                 window.location.href = '/';
             }
         }

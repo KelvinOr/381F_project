@@ -1,13 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <body>
+    <body onload="onload()">
         <div id='center'>
             <h1>Welcome to this Project</h1><br>
-            this project is write form<br>
-            Or Kai Yeung (12767539)<br>
+            this project is write by<br>
+            Or Kai Yeung (12767539)<br><br>
+            <button onclick="createItem()">Add Inventroy</button><br><br>
+            <button onclick="logout()">Logout</button>
+            <% if (data != null ) { %>
+                <p>test</p>
+            <% } else {%> 
+                <p>there is no data</p>
+            <% } %> 
         </div>
         
-
     </body>
+    <script>
+        function onload(){
+            if (localStorage.getItem("uid") == null){
+                window.location.href = "/";
+            }
+        }
 
+        function createIten(){
+            window.location.href = "/addItem";
+        }
+
+        function logout(){
+            var answer = window.confirm("Really want to Logout?");
+            if (answer) {
+                localStorage.removeItem("uid");
+                window.location.href = "/";
+            }
+        }
+    </script>
+    <style>
+        body{
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        }
+        .center{
+            width: 80%;
+        }
+        button{
+                background-color: #2a6dd1;
+                border: none;
+                font-size: 15px;
+                font-family: "Roboto", sans-serif;
+                color: white;
+                border-radius: 3px;
+                padding: 3% 2% 3% 2% ;
+                width: 100%;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }   
+        button:active{
+            background-color: #999999;
+        }
+    </style>
 </html>

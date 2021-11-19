@@ -10,7 +10,8 @@
     <script>
         function onload(){
             var userInfo = '<%= uid %>';
-            alert(userInfo);
+            localStorage.setItem('uid', userInfo);
+            window.location.href = '/Home';
         };
     </script>
 </html>

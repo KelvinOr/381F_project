@@ -27,6 +27,30 @@ app.get('/signup', (req, res) => {
   res.render('pages/signup', {});
 });
 
+app.get('/Home', (req, res) => {
+  var uid = req.query.uid;
+  var startItem = req.query.startItem;
+  var endItem = req.query.endItem;
+  User.findOne({"uid": uid}, function (err, result) {
+    if (err) {
+        console.log('Error finding user: ', err)
+        } else {
+          if (result == null) {
+            var data =  Inventory.find({}, {_id: 1, name: 1}, function(err, dataresult) {
+              if (dataresult._id == null) {
+                res.render('pages/Home', {data: null});
+              } else {
+                res.render('pages/Home', {data: dataresult});
+                console.log(dataresult);
+              }
+            }).limit(10).skip(startItem).limit(endItem);
+          } else {
+            res.send('No User');
+          }
+        }
+  });
+});
+
 app.post('/api/createUser', (req, res) => {
     let data = {
       "uid": mongoose.Types.ObjectId().toString(),
@@ -67,24 +91,6 @@ app.get('/api/login', (req, res) => {
         }
     })
     
-});
-
-app.get('/api/getInventory', (req, res) => {
-    var uid = req.query.uid;
-    var startItem = req.query.startItem;
-    var endItem = req.query.endItem;
-    User.findOne({"uid": uid}, function (err, result) {
-      if (err) {
-          console.log('Error finding user: ', err)
-          } else {
-            if (result == null) {
-              var data =  Inventory.find({}, {_id: 1, name: 1}).limit(10).skip(startItem).limit(endItem);
-              res.send(JSON.stringify(data));
-            } else {
-              res.send('Please Login');
-            }
-          }
-    });
 });
 
 app.get('/api/getInventoryOne', (req, res) => {

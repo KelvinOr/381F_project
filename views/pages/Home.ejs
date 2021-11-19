@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
     <body id='body_center' onload="onload()">
-        <div id='center'>
+        <div id='center_40persent'>
             <h1>Welcome to this Project</h1><br>
             this project is write by<br>
             Or Kai Yeung (12767539)<br>
             Yu Yiwen (12810000)
             <br><br>
-            <button onclick="window.location.href ='/addItem'">Add Inventroy</button><br><br>
-            <button onclick="logout()">Logout</button><br><br>
+            <div id='wapper'>
+                <button onclick="window.location.href ='/addItem'">Add Inventroy</button>&nbsp;&nbsp;
+                <button onclick="logout()">Logout</button>
+            </div><br> 
             <% if ( data.length > 0 ) { %>
                 All Items:<br>          
                 <% data.forEach(element => { %>     
                     <button id='white' onclick="window.location.href = '/viewItem?oid=<%= element.inventory_id.toString() %>'"><%= element.name %></button>
-                    <br><br>                    
+                    <br><br>               
                 <% }); %>    
                 <% if ( data.length < 10 ) { %>
                     No more items
                 <% } else { %>
                     <button onclick="nextPage()">Next Page</button>
                 <% } %>
-            <% } else if ( data.length < 10 &&  start >= 0  ) { %>
-                <button onclick="backPage()">Next Page</button>
+            <% } else if ( data.length < 10 &&  start >= 0 && data.length > 0) { %>
+                <button onclick="backPage()">Back Page</button>
             <% } else {%> 
                 <p>there is no data</p>
             <% } %> 
@@ -33,10 +35,6 @@
             if (localStorage.getItem("uid") == null){
                 window.location.href = "/";
             }
-        }
-
-        function createIten(){
-            
         }
 
         function logout(){

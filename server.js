@@ -73,8 +73,23 @@ app.get('/viewItem', (req,res) => {
         res.redirect('/');
         } else {
           if (result != []) {
-            console.log(result);
             res.render('pages/viewItem', {data: result});
+          } else {
+            res.redirect('/');
+          }
+        }
+  });
+});
+
+app.get('/editItem', (req,res) => {
+  var inventory_id = req.query.oid;
+  Inventory.findOne({"inventory_id": inventory_id}, function (err, result) {
+    if (err) {
+        console.log('Error finding item: ', err)
+        res.redirect('/');
+        } else {
+          if (result != []) {
+            res.render('pages/editItem', {data: result});
           } else {
             res.redirect('/');
           }
@@ -178,28 +193,15 @@ app.post('/api/addInventory', (req, res) => {
 
 app.post('/api/updateInventory', (req, res) => {
     var uid = req.body.uid;
-    var inventoryItem = {
-      "inventory_id": req.body.inventory_id,
-      "name": req.body.name,
-      "type": req.body.type,
-      "quantity": req.body.quantity,
-      "photo": req.body.photo,
-      "photo_mine": req.body.photo_mine,
-      "inventory_address": {
-        "street": req.body.street,
-        "building": req.body.building,
-        "country": req.body.country,
-        "zipcode": req.body.zipcode,
-        "coord": req.body.coord
-      },
-      "manager": req.body.manager,
-    }
-    User.findOne({"uid": uid}, function (err, result) {
+    var inventoryItem = req.body;
+    delete inventoryItem["uid"];
+
+    /*User.findOne({"uid": uid}, function (err, result) {
       if (err) {
           console.log('Error finding user: ', err)
           } else {
             if (result == null) {
-              Inventory.findOneAndUpdate({"inventory_id": req.query.inventory_id}, inventoryItem, function(err, result){
+              Inventory.findOneAndUpdate({"inventory_id": req.body.inventory_id}, inventoryItem, function(err, result){
                 if (err) {
                   console.log('Error finding user: ', err)
                   } else {
@@ -210,7 +212,7 @@ app.post('/api/updateInventory', (req, res) => {
               res.send('Please Login');
             }
           }
-    });
+    });*/
 });
 
 app.delete('/api/deleteInventory', (req, res) => {
@@ -220,12 +222,12 @@ app.delete('/api/deleteInventory', (req, res) => {
     if (err) {
         console.log('Error finding user: ', err)
         } else {
-          if (result == null) {
-            Inventory.deleteOne({"_id": inventory_id}, function(err, result){
-              if (err) {
-                console.log('Error finding user: ', err)
+          if (result != null) {
+            Inventory.deleteOne({"inventory_id": inventory_id}, function(error, del_result){
+              if (error) {
+                console.log('Error finding user: ', error)
                 } else {
-                  res.send(result);
+                  res.redirect('/Home?uid=' + uid);
                 }
             });
           } else {

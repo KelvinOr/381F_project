@@ -1,18 +1,65 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title><%= data.name %></title>
     </head>
-    <body onload="onload()" id="body_center">
-        <div>
-            
+    <body onload="onload()" id="card_center">
+        <div id='center_30persent'>
+            <div id='card'>
+                <h1> <%= data.name %> </h1>
+                Inventory_id: <%= data.inventory_id %><br>
+                Name: <%= data.name %><br>
+                Type: <%= data.type %><br>
+                Quantity: <%= data.quantity %><br>
+                Photo mine: <%= data.photo_mine %><br>
+                Photo: <br>
+                <div id='item_onright'>
+                    <img src='<%= data.photo %>' height="200">
+                </div><br>
+                Inventory_address: <br>
+                <div id='item_onright'>
+                    Street: <%= data.inventory_address.street %> <br>
+                    Building: <%= data.inventory_address.building %> <br>
+                    Country: <%= data.inventory_address.country %> <br>
+                    Zipcode: <%= data.inventory_address.zipcode %> <br>
+                    Coord: <%= data.inventory_address.coord %>
+                </div><br>
+                Manager: <%= data.manager %><br><br>
+                <div id='wapper'>
+                    <button onclick="deleteItem()">Delete</button>&nbsp;&nbsp;
+                    <button onclick="onUpdate()">Update</button>
+                </div><br>
+                <button id='white' onclick="back()">Back</button>
+            </div>
         </div>
     </body>
+
     <script>
         function onload(){
             if(localStorage.getItem('uid') == null){
                 window.location.href = '/';
             }
         }
+
+        function back() {
+            window.location.href = '/Home?uid=' + localStorage.getItem('uid');
+        }
+
+        function deleteItem() {
+            var answer = window.confirm("Really want to Delete?");
+            if (answer){
+                var xhr = new XMLHttpRequest();
+                xhr.open('DELETE', '/api/deleteInventory?uid=' + localStorage.getItem('uid') + '&inventory_id=' + '<%= data.inventory_id %>');
+                  xhr.onload = function () {
+                    window.location.href = '/Home?uid=' + localStorage.getItem('uid');
+                 };
+                 xhr.send();
+            }
+        }
+
+        function onUpdate(params) {
+            window.location.href = '/editItem?oid=' + '<%= data.inventory_id %>';
+        }
     </script>
+    <link href="css/default.css" rel="stylesheet"></link>
 </html>

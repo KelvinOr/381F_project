@@ -4,13 +4,13 @@
         <title>Insert Item</title>
         <meta charset="utf-8">
     </head>
-    <body onload="onload()" id="body_center">
+    <body onload="onload()" id="card_center">
         <div id='center'>
             <h1>Add Inventory</h1>
             <form action='/api/addInventory' method="post" id='insertInventory'>
                 <input type='hidden' id='uid' name='uid'>
                 <!--Name Inpute-->
-                Name: <input type="text" name="name" id='name' placeholder="Name" required><br><br>
+                Name*: <input type="text" name="name" id='name' placeholder="Name" required><br><br>
                 <!--type Input-->
                 Type: <input type="text" name='type' id='type' placeholder="Type"><br><br>
                 <!--quantity Input-->
@@ -18,7 +18,8 @@
                 Image: <input type="file" onchange="viewImage()" accept="image/jpeg"><br><br>
                 <input id='img_base64' type="hidden" name="photo">
                 <img height="200"><br><br>
-                Address: <div id='left'>
+                Address: <br>
+                <div id='item_onright'>
                     <!--street input-->
                     Street: <input type="text" name='street' id='street' placeholder="Street"><br><br>
                     <!--building-->
@@ -29,20 +30,32 @@
                     Zipcode: <input type="text" name='zipcode' id='zipcode' placeholder="Zipcode"><br><br>
                     <!--coord-->
                     Coordinates: <input type="text" name='coord' id='coord' placeholder="Coordinates"><br><br>
-                </div>
+                </div><br><br>
                 <!--manager Input-->
-                Manager: <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
+
+                Manager*: <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
                 <button onclick="onSubmit()">Submit</button><br>
             </form>
         </div>
     </body>
     <script>
         function onSubmit(){
-            document.getElementById('insertInventory').submit();
+            var Name = document.getElementById("name").value;
+            var Manager = document.getElementById("manager").value;
+            if (Name == "" || Manager == ""){
+                alert("Please fill in required the fields");
+                return;
+            } else{
+                document.getElementById('insertInventory').submit();
+            }
         }
 
         function onload() {
             document.getElementById('uid').value = localStorage.getItem('uid').toString();
+            if(localStorage.getItem('uid') == null){
+                alert("Please login first");
+                window.location.href = "/";
+            }
         }
 
         function viewImage(params) {

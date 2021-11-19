@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body onload="onload()">
+        
+    </body>
+    <script>
+        function onload(){
+            if(localStorage.getItem('token') == null){
+                window.location.href = '/';
+            }
+        }
+    </script>
+</html>

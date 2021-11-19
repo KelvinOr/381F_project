@@ -4,31 +4,45 @@
         <title>Insert Item</title>
         <meta charset="utf-8">
     </head>
-    <body>
+    <body onload="onload()">
         <div id='center'>
+            <h1>Add Inventory</h1>
             <form action='/api/addInventory' method="post" id='insertInventory'>
-                <input type='hidden' id='uid'>
+                <input type='hidden' id='uid' name='uid'>
                 <!--Name Inpute-->
-                <input type="text" name="name" id='name' placeholder="Name" required><br><br>
+                Name: <input type="text" name="name" id='name' placeholder="Name" required><br><br>
                 <!--type Input-->
-                <input type="text" name='type' id='type' placeholder="Type"><br><br>
+                Type: <input type="text" name='type' id='type' placeholder="Type"><br><br>
                 <!--quantity Input-->
-                <input type="number" name='quantity' id='quantity' placeholder="Quantity"><br><br>
-                <input type="file" onchange="viewImage()"><br><br>
+                Quantity: <input type="number" name='quantity' id='quantity' placeholder="Quantity"><br><br>
+                Image: <input type="file" onchange="viewImage()" accept="image/jpeg"><br><br>
                 <input id='img_base64' type="hidden" name="photo">
                 <img height="200"><br><br>
+                Address: <div id='left'>
+                    <!--street input-->
+                    Street: <input type="text" name='street' id='street' placeholder="Street"><br><br>
+                    <!--building-->
+                    Building: <input type="text" name='building' id='building' placeholder="Building"><br><br>
+                    <!--country-->
+                    Country: <input type="text" name='country' id='country' placeholder="Country"><br><br>
+                    <!--zipcode-->
+                    Zipcode: <input type="text" name='zipcode' id='zipcode' placeholder="Zipcode"><br><br>
+                    <!--coord-->
+                    Coordinates: <input type="text" name='coord' id='coord' placeholder="Coordinates"><br><br>
+                </div>
                 <!--manager Input-->
-                <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
-                <button onclick="onSubmti()">Submit</button>
+                Manager: <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
+                <button onclick="onSubmit()">Submit</button><br>
             </form>
         </div>
     </body>
     <script>
         function onSubmit(){
-            var uid = document.getElementById('uid')
-            uid.value = localStorage.getItem('uid')
-            document.getElementById('insertInventory').submit()
-            window.location.href = '/Home'
+            document.getElementById('insertInventory').submit();
+        }
+
+        function onload() {
+            document.getElementById('uid').value = localStorage.getItem('uid').toString();
         }
 
         function viewImage(params) {
@@ -57,39 +71,6 @@
             }
         }
     </script>
-    <style>
-        body{
-            display: flex;
-            justify-content: center; 
-            align-items: center;
-        }
-        .center{
-            width: 80%;
-        }
-        button{
-                background-color: #2a6dd1;
-                border: none;
-                font-size: 15px;
-                font-family: "Roboto", sans-serif;
-                color: white;
-                border-radius: 3px;
-                padding: 3% 2% 3% 2% ;
-                width: 100%;
-                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        }   
-        button:active{
-            background-color: #999999;
-        }
-        input{
-                outline-style: none;
-                border: 0px;
-                padding: 3% 2% 3% 2% ;
-                background: #F3F3F3;
-                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-                border-radius: 3px;
-                font-family: "Roboto", sans-serif;
-                width: 100%;
-                font-size: 15px;
-            }
-    </style>
+    
+    <link href="css/default.css" rel="stylesheet"></link>
 </html>

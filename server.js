@@ -7,6 +7,8 @@ const app = express()
 const port = 8080
 
 var { mongoose, User, Inventory } = require('./mongo/mongoController');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 
 app.set('view engine', 'ejs')
 
@@ -32,7 +34,14 @@ app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
   var endItem = req.query.endItem;
-  User.findOne({uid: uid.toString()}, function (err, result) {
+  if (startItem == undefined) {
+    startItem = 0;
+  }
+  if (endItem == undefined) {
+    endItem = 10;
+  }
+
+  User.findOne({uid: uid}, function (err, result) {
     if (err) {
         console.log('Error finding user: ', err)
         } else {
@@ -40,9 +49,7 @@ app.get('/Home', (req, res) => {
             var data =  Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, async function(err, dataresult) {
               if (dataresult[0].inventory_id == null) {
                 res.render('pages/Home', {data: []});
-                console.log(dataresult + ' 1');
               } else {
-                console.log(dataresult.length + ' w');
                 res.render('pages/Home', {data: dataresult});
               }
             }).limit(10).skip(startItem).limit(endItem);
@@ -57,6 +64,23 @@ app.get('/addItem', (req, res) => {
   res.render('pages/insertItem', {});
 });
 
+app.get('/viewItem', (req,res) =>{
+  var inventory_id = req.query.inventory_id;
+  Inventory.findOne({inventory_id: inventory_id}, function (err, result) {
+    if (err) {
+        console.log('Error finding item: ', err)
+        res.redirect('/');
+        } else {
+          if (result != []) {
+            res.render('pages/viewItem', {data: result});
+          } else {
+            res.redirect('/');
+          }
+        }
+  });
+});
+
+//start api
 app.post('/api/createUser', (req, res) => {
     let data = {
       "uid": mongoose.Types.ObjectId().toString(),
@@ -134,14 +158,15 @@ app.post('/api/addInventory', (req, res) => {
       },
       "manager": req.body.manager,
     }
+
     User.findOne({"uid": uid}, function (err, result) {
       if (err) {
           console.log('Error finding user: ', err)
           } else {
-            if (result == null) {
+            if (result != null) {
               var newInventory = new Inventory(inventoryItem);
               newInventory.save();
-              res.send(newInventory);
+              res.redirect('/Home?uid=' + result.uid.toString());
             } else {
               res.send('Please Login');
             }
@@ -150,22 +175,22 @@ app.post('/api/addInventory', (req, res) => {
 });
 
 app.post('/api/updateInventory', (req, res) => {
-    var uid = req.query.uid;
+    var uid = req.body.uid;
     var inventoryItem = {
-      "inventory_id": req.query.inventory_id,
-      "name": req.query.name,
-      "type": req.query.type,
-      "quantity": req.query.quantity,
-      "photo": req.query.photo,
-      "photo_mine": req.query.photo_mine,
+      "inventory_id": req.body.inventory_id,
+      "name": req.body.name,
+      "type": req.body.type,
+      "quantity": req.body.quantity,
+      "photo": req.body.photo,
+      "photo_mine": req.body.photo_mine,
       "inventory_address": {
-        "street": req.query.street,
-        "building": req.query.building,
-        "country": req.query.country,
-        "zipcode": req.query.zipcode,
-        "coord": req.query.coord
+        "street": req.body.street,
+        "building": req.body.building,
+        "country": req.body.country,
+        "zipcode": req.body.zipcode,
+        "coord": req.body.coord
       },
-      "manager": req.query.manager,
+      "manager": req.body.manager,
     }
     User.findOne({"uid": uid}, function (err, result) {
       if (err) {

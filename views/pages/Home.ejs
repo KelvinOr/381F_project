@@ -5,10 +5,14 @@
             <h1>Welcome to this Project</h1><br>
             this project is write by<br>
             Or Kai Yeung (12767539)<br><br>
-            <button onclick="createItem()">Add Inventroy</button><br><br>
+            <button onclick="window.location.href ='/addItem'">Add Inventroy</button><br><br>
             <button onclick="logout()">Logout</button>
-            <% if (data != null ) { %>
-                <p>test</p>
+            <% if ( data != [] ) { %>
+                <ul>
+                    <% data.forEach(element => { %>
+                        <li><%= element.name %></li>
+                    <% }); %>
+                </ul>
             <% } else {%> 
                 <p>there is no data</p>
             <% } %> 
@@ -23,7 +27,7 @@
         }
 
         function createIten(){
-            window.location.href = "/addItem";
+            
         }
 
         function logout(){

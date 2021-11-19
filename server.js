@@ -1,9 +1,8 @@
 const express = require('express');
-const req = require('express/lib/request');
 const { redirect } = require('express/lib/response');
-const res = require('express/lib/response')
 const path = require('path');
 const bodyParser = require('body-parser');
+const ejs = require('ejs');
 const app = express()
 const port = 8080
 
@@ -12,8 +11,10 @@ var { mongoose, User, Inventory } = require('./mongo/mongoController');
 app.set('view engine', 'ejs')
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.get('/', (req, res) => {
   res.render('pages/index', {});
@@ -31,17 +32,18 @@ app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
   var endItem = req.query.endItem;
-  User.findOne({"uid": uid}, function (err, result) {
+  User.findOne({uid: uid.toString()}, function (err, result) {
     if (err) {
         console.log('Error finding user: ', err)
         } else {
-          if (result == null) {
-            var data =  Inventory.find({}, {_id: 1, name: 1}, function(err, dataresult) {
-              if (dataresult._id == null) {
-                res.render('pages/Home', {data: null});
+          if (result != null) {
+            var data =  Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, async function(err, dataresult) {
+              if (dataresult[0].inventory_id == null) {
+                res.render('pages/Home', {data: []});
+                console.log(dataresult + ' 1');
               } else {
+                console.log(dataresult.length + ' w');
                 res.render('pages/Home', {data: dataresult});
-                console.log(dataresult);
               }
             }).limit(10).skip(startItem).limit(endItem);
           } else {
@@ -49,6 +51,10 @@ app.get('/Home', (req, res) => {
           }
         }
   });
+});
+
+app.get('/addItem', (req, res) => { 
+  res.render('pages/insertItem', {});
 });
 
 app.post('/api/createUser', (req, res) => {
@@ -111,22 +117,22 @@ app.get('/api/getInventoryOne', (req, res) => {
 });
 
 app.post('/api/addInventory', (req, res) => {
-    var uid = req.query.uid;
+    var uid = req.body.uid;
     var inventoryItem = {
-      "inventory_id": req.query.inventory_id,
-      "name": req.query.name,
-      "type": req.query.type,
-      "quantity": req.query.quantity,
-      "photo": req.query.photo,
-      "photo_mine": req.query.photo_mine,
+      "inventory_id": mongoose.Types.ObjectId().toString(),
+      "name": req.body.name,
+      "type": req.body.type,
+      "quantity": req.body.quantity,
+      "photo": req.body.photo,
+      "photo_mine": req.body.photo_mine,
       "inventory_address": {
-        "street": req.query.street,
-        "building": req.query.building,
-        "country": req.query.country,
-        "zipcode": req.query.zipcode,
-        "coord": req.query.coord
+        "street": req.body.street,
+        "building": req.body.building,
+        "country": req.body.country,
+        "zipcode": req.body.zipcode,
+        "coord": req.body.coord
       },
-      "manager": req.query.manager,
+      "manager": req.body.manager,
     }
     User.findOne({"uid": uid}, function (err, result) {
       if (err) {

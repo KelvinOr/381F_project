@@ -11,7 +11,7 @@
         function onload(){
             var userInfo = '<%= uid %>';
             localStorage.setItem('uid', userInfo);
-            window.location.href = '/Home';
+            window.location.href = '/Home?uid=' + userInfo + '&startItem=0&endItem=9';
         };
     </script>
 </html>

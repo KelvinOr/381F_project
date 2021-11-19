@@ -3,12 +3,16 @@
     <head>
         <title>Home</title>
     </head>
-    <BODY>
-        <H1>Welcome to the Home Page</H1>
-        <button onclick="window.location.href='/login'">Login</button><br>
-        <button onclick="window.location.href='/signup'">Sign Up</button>
-        
-    </BODY>
+    <body>
+        <div id='center'>
+            <H1>Welcome to the Home Page</H1>
+            <div>
+                <button onclick="window.location.href='/login'">Login</button><br><br>
+                <button onclick="window.location.href='/signup'">Sign Up</button>
+            </div>
+            
+        </div>
+    </body>
     <style>
         body{
             display: flex;
@@ -17,6 +21,20 @@
         }
         .center{
             width: 80%;
+        }
+        button{
+                background-color: #2a6dd1;
+                border: none;
+                font-size: 15px;
+                font-family: "Roboto", sans-serif;
+                color: white;
+                border-radius: 3px;
+                padding: 3% 2% 3% 2% ;
+                width: 100%;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }   
+        button:active{
+            background-color: #999999;
         }
     </style>
 </html>

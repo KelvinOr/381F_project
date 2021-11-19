@@ -5,10 +5,91 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <div>
-            <form>
-                <input type='hidden'>
+        <div id='center'>
+            <form action='/api/addInventory' method="post" id='insertInventory'>
+                <input type='hidden' id='uid'>
+                <!--Name Inpute-->
+                <input type="text" name="name" id='name' placeholder="Name" required><br><br>
+                <!--type Input-->
+                <input type="text" name='type' id='type' placeholder="Type"><br><br>
+                <!--quantity Input-->
+                <input type="number" name='quantity' id='quantity' placeholder="Quantity"><br><br>
+                <input type="file" onchange="viewImage()"><br><br>
+                <input id='img_base64' type="hidden" name="photo">
+                <img height="200"><br><br>
+                <!--manager Input-->
+                <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
+                <button onclick="onSubmti()">Submit</button>
             </form>
         </div>
     </body>
+    <script>
+        function onSubmit(){
+            var uid = document.getElementById('uid')
+            uid.value = localStorage.getItem('uid')
+            document.getElementById('insertInventory').submit()
+            window.location.href = '/Home'
+        }
+
+        function viewImage(params) {
+            var preview = document.querySelector('img');
+            var file    = document.querySelector('input[type=file]').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+                getBase64(file)
+            }
+        }
+    
+        function getBase64(file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                document.getElementById('img_base64').value = reader.result;
+            }
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            }
+        }
+    </script>
+    <style>
+        body{
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        }
+        .center{
+            width: 80%;
+        }
+        button{
+                background-color: #2a6dd1;
+                border: none;
+                font-size: 15px;
+                font-family: "Roboto", sans-serif;
+                color: white;
+                border-radius: 3px;
+                padding: 3% 2% 3% 2% ;
+                width: 100%;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }   
+        button:active{
+            background-color: #999999;
+        }
+        input{
+                outline-style: none;
+                border: 0px;
+                padding: 3% 2% 3% 2% ;
+                background: #F3F3F3;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                border-radius: 3px;
+                font-family: "Roboto", sans-serif;
+                width: 100%;
+                font-size: 15px;
+            }
+    </style>
 </html>

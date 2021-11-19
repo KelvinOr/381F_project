@@ -1,3 +1,0 @@
-function testFuntion() {
-    alert('test');
-}

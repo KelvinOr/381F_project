@@ -33,12 +33,8 @@ app.get('/signup', (req, res) => {
 app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
-  var endItem = req.query.endItem;
   if (startItem == undefined) {
     startItem = 0;
-  }
-  if (endItem == undefined) {
-    endItem = 10;
   }
 
   User.findOne({uid: uid}, function (err, result) {
@@ -46,13 +42,18 @@ app.get('/Home', (req, res) => {
         console.log('Error finding user: ', err)
         } else {
           if (result != null) {
-            var data =  Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, async function(err, dataresult) {
-              if (dataresult[0].inventory_id == null) {
+            Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, function(err, dataresult) {
+              if (dataresult.length > 0) {
+                if (dataresult[0].inventory_id == null) {
+                  res.render('pages/Home', {data: []});
+                } else {
+                  res.render('pages/Home', {data: dataresult});
+                }
+              } else{
                 res.render('pages/Home', {data: []});
-              } else {
-                res.render('pages/Home', {data: dataresult});
               }
-            }).limit(10).skip(startItem).limit(endItem);
+            }).skip(Number(startItem)).limit(10);
+            
           } else {
             res.send('No User');
           }

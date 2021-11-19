@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <body onload="onload()">
+    <body id='body_center' onload="onload()">
         <div id='center'>
             <h1>Welcome to this Project</h1><br>
             this project is write by<br>
@@ -8,13 +8,16 @@
             Yu Yiwen (12810000)
             <br><br>
             <button onclick="window.location.href ='/addItem'">Add Inventroy</button><br><br>
-            <button onclick="logout()">Logout</button>
-            <% if ( data != [] ) { %>
-                <ul>
-                    <% data.forEach(element => { %>
-                        <li><%= element.name %></li>
-                    <% }); %>
-                </ul>
+            <button onclick="logout()">Logout</button><br><br>
+            <% if ( data.length > 0 ) { %>
+                All Items:<br>          
+                <% data.forEach(element => { %>     
+                    <button id='white' onclick="window.location.href = '/item/<%= element.id %>'"><%= element.name %></button>
+                    <br><br>                    
+                <% }); %>    
+                <% if (data.length == 9) { %>
+                    <button onclick="nextPage()">Next Page</button>
+                <% } %>
             <% } else {%> 
                 <p>there is no data</p>
             <% } %> 
@@ -39,6 +42,20 @@
                 window.location.href = "/";
             }
         }
+
+        function nextPage() {
+            
+            let urlParams = new URLSearchParams(window.location.search)
+            var startItem = parseInt(urlParams.get('startItem'));
+            if (startItem == null) {
+                startItem = 0
+            }
+            startItem += 10
+            window.location.href = "/Home?uid=" + localStorage.getItem('uid') + "&startItem=" + startItem
+        }
     </script>
     <link href="css/default.css" rel="stylesheet"></link>
+    <style>
+        
+    </style>
 </html>

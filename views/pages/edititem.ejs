@@ -6,48 +6,79 @@
     <body onload="onload()" id="card_center">
         <div id='center'>
             <h1>Edit Inventory</h1>
-            <form id='insertInventory'>
+            <form id='insertInventory' action="/api/updateInventory" method="post">
                 <input type='hidden' id='uid' name='uid'>
+                <input type='hidden' id='inventory_id' name='inventory_id' value="<%= data.inventory_id %>">
                 <!--Name Inpute-->
-                Name*: <input type="text" name="name" id='name' placeholder="Name" value="<% data.name %>" required><br><br>
+                Name*: <input type="text" name="name" id='name' placeholder="Name" value="<%= data.name %>" required><br><br>
                 <!--type Input-->
-                Type: <input type="text" name='type' id='type' placeholder="Type" value="<% data.type %>"><br><br>
+                Type: <input type="text" name='type' id='type' placeholder="Type" value="<%= data.type %>"><br><br>
                 <!--quantity Input-->
-                Quantity: <input type="number" name='quantity' id='quantity' placeholder="Quantity" value="<% data.quantity %>"><br><br>
+                Quantity: <input type="number" name='quantity' id='quantity' placeholder="Quantity" value="<%= data.quantity %>"><br><br>
                 Image: <input type="file" onchange="viewImage()" accept="image/jpeg"><br><br>
-                <input id='img_base64' type="hidden" name="photo">
-                <img height="200" src="<% data.img %>"><br><br>
+                <input id='img_base64' type="hidden" name="photo" value="<%= data.photo %>">
+                <input id='img_mine' type="hidden" name="photo_mine" value="<%= data.photo_mine %>">
+                <img height="200" src="<%= data.photo %> "><br><br>
                 Address: <br>
                 <div id='item_onright'>
                     <!--street input-->
-                    Street: <input type="text" name='street' id='street' placeholder="Street" value="<% data.inventory_address.street %>"><br><br>
+                    Street: <input type="text" name='street' id='street' placeholder="Street" value="<%= data.inventory_address.street %>"><br><br>
                     <!--building-->
-                    Building: <input type="text" name='building' id='building' placeholder="Building" value="<% data.inventory_address.building %>"><br><br>
+                    Building: <input type="text" name='building' id='building' placeholder="Building" value="<%= data.inventory_address.building %>"><br><br>
                     <!--country-->
-                    Country: <input type="text" name='country' id='country' placeholder="Country" value="<% data.inventory_address.country %>"><br><br>
+                    Country: <input type="text" name='country' id='country' placeholder="Country" value="<%= data.inventory_address.country %>"><br><br>
                     <!--zipcode-->
-                    Zipcode: <input type="text" name='zipcode' id='zipcode' placeholder="Zipcode" value="<% data.inventory_address.zipcode %>"><br><br>
+                    Zipcode: <input type="text" name='zipcode' id='zipcode' placeholder="Zipcode" value="<%= data.inventory_address.zipcode %>"><br><br>
                     <!--coord-->
-                    Coordinates: <input type="text" name='coord' id='coord' placeholder="Coordinates" value="<% data.inventory_address.coord %>"><br><br>
+                    Coordinates: <input type="text" name='coord' id='coord' placeholder="Coordinates" value="<%= data.inventory_address.coord %>"><br><br>
                 </div><br><br>
                 <!--manager Input-->
 
-                Manager*: <input type="text" name='manager' id='manager' placeholder="Manager" value="<% data.manager %>" required><br><br>
+                Manager*: <input type="text" name='manager' id='manager' placeholder="Manager" value="<%= data.manager %>" required><br><br>
                 <button onclick="onSubmit()">Submit</button><br>
             </form>
         </div>
     </body>
     <script>
         function onload() {
+            document.getElementById('uid').value = localStorage.getItem('uid').toString();
             if(localStorage.getItem(uid) != null){
                 window.location.href = '/';
             }
-            document.getElementById('uid').value = localStorage.getItem('uid').toString();
         }
 
         function onSubmit() {
-            
+            document.getElementById('insertInventory').submit();
+        }
+
+        function viewImage(params) {
+            var preview = document.querySelector('img');
+            var file    = document.querySelector('input[type=file]').files[0];
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                var mine = file.type;
+                document.getElementById('img_mine').value = mine;
+                reader.readAsDataURL(file);
+                getBase64(file)
+            }
+        }
+    
+        function getBase64(file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                document.getElementById('img_base64').value = reader.result;
+            }
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            }
         }
 
     </script>
+    <link href="css/default.css" rel="stylesheet"></link>
 </html>

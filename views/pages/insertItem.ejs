@@ -17,6 +17,7 @@
                 Quantity: <input type="number" name='quantity' id='quantity' placeholder="Quantity"><br><br>
                 Image: <input type="file" onchange="viewImage()" accept="image/jpeg"><br><br>
                 <input id='img_base64' type="hidden" name="photo">
+                <input id='img_mine' type="hidden" name="photo_mine">
                 <img height="200"><br><br>
                 Address: <br>
                 <div id='item_onright'>
@@ -35,6 +36,7 @@
 
                 Manager*: <input type="text" name='manager' id='manager' placeholder="Manager" required><br><br>
                 <button onclick="onSubmit()">Submit</button><br>
+                <button onclick="onCancel()">Cancel</button>
             </form>
         </div>
     </body>
@@ -48,6 +50,10 @@
             } else{
                 document.getElementById('insertInventory').submit();
             }
+        }
+
+        function onCancel() {
+            window.location.href = "/Home?uid=" + document.getElementById('uid').value;
         }
 
         function onload() {
@@ -68,6 +74,8 @@
             }, false);
 
             if (file) {
+                var mine = file.type;
+                document.getElementById('img_mine').value = mine;
                 reader.readAsDataURL(file);
                 getBase64(file)
             }

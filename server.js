@@ -13,8 +13,6 @@ const res = require('express/lib/response');
 app.set('view engine', 'ejs')
 
 app.use(express.static(__dirname + '/public'));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
@@ -72,7 +70,8 @@ app.get('/viewItem', (req,res) => {
         console.log('Error finding item: ', err)
         res.redirect('/');
         } else {
-          if (result != []) {
+          if (result != null) {
+            console.log(result);
             res.render('pages/viewItem', {data: result});
           } else {
             res.redirect('/');
@@ -195,24 +194,24 @@ app.post('/api/updateInventory', (req, res) => {
     var uid = req.body.uid;
     var inventoryItem = req.body;
     delete inventoryItem["uid"];
-
-    /*User.findOne({"uid": uid}, function (err, result) {
+    User.findOne({"uid": uid}, function (err, result) {
       if (err) {
           console.log('Error finding user: ', err)
           } else {
-            if (result == null) {
-              Inventory.findOneAndUpdate({"inventory_id": req.body.inventory_id}, inventoryItem, function(err, result){
-                if (err) {
-                  console.log('Error finding user: ', err)
+            if (result != null) {
+              Inventory.findOneAndUpdate({"inventory_id": req.body.inventory_id}, inventoryItem, function(error, update_result){
+                if (error) {
+                  console.log('Error finding user: ', error)
                   } else {
-                    res.send(result);
+                    console.log(update_result);
+                    res.redirect('/Home?uid=' + uid);
                   }
               });
             } else {
               res.send('Please Login');
             }
           }
-    });*/
+    });
 });
 
 app.delete('/api/deleteInventory', (req, res) => {

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>在文本框中尝试输入触发函数。</p>
+        <input type="text" id="myInput" oninput="myFunction()">
+        <p id="demo"></p>
+        <script>
+        function myFunction() {
+            var x = document.getElementById("myInput").value;
+            document.getElementById("demo").innerHTML = "你输入的是: " + x;
+        }
+        </script>
+    </body>
+</html>

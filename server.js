@@ -109,6 +109,8 @@ app.get('/search' ,(req, res) => {
       } else{
         res.render('pages/Search', {data: []});
       }
+      console.log(dataresult);
+      console.log(search);
     }).limit(200);
   } else{
     Inventory.find({"name": {$text: {$search: search}}}, function (err, dataresult) {
@@ -121,9 +123,14 @@ app.get('/search' ,(req, res) => {
       } else{
         res.render('pages/Search', {data: []});
       }
+      console.log(dataresult);
     });
   } 
 });
+
+app.get('/test', (req, res) => {
+  res.render('pages/testpage', {});
+})
 
 //start api
 app.post('/api/createUser', (req, res) => {

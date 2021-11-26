@@ -96,6 +96,35 @@ app.get('/editItem', (req,res) => {
   });
 });
 
+app.get('/search' ,(req, res) => {
+  var search = req.query.search;
+  if (search == undefined) {
+    Inventory.find({}, {_id: 1, name: 1, inventory_id: 1 }, function(err, dataresult) {
+      if (dataresult.length > 0) {
+        if (dataresult[0].inventory_id == null) {
+          res.render('pages/Search', {data: []});
+        } else {
+          res.render('pages/Search', {data: dataresult});
+        }
+      } else{
+        res.render('pages/Search', {data: []});
+      }
+    }).limit(200);
+  } else{
+    Inventory.find({"name": {$text: {$search: search}}}, function (err, dataresult) {
+      if (dataresult.length > 0) {
+        if (dataresult[0].inventory_id == null) {
+          res.render('pages/Search', {data: []});
+        } else {
+          res.render('pages/Search', {data: dataresult});
+        }
+      } else{
+        res.render('pages/Search', {data: []});
+      }
+    });
+  } 
+});
+
 //start api
 app.post('/api/createUser', (req, res) => {
     let data = {

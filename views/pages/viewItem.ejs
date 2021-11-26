@@ -2,6 +2,8 @@
 <html>
     <head>
         <title><%= data.name %></title>
+        <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+        <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     </head>
     <body onload="onload()" id="card_center">
         <div id='center_30persent'>
@@ -23,6 +25,9 @@
                     Country: <%= data.inventory_address.country %> <br>
                     Zipcode: <%= data.inventory_address.zipcode %> <br>
                     Coord: <%= data.inventory_address.coord %>
+                    <% if(data.inventory) {  %> 
+                        <div id = "map" style = "width: 900px; height: 580px"></div>
+                    <% } %>
                 </div><br>
                 Manager: <%= data.manager %><br><br>
                 <div id='wapper'>
@@ -60,6 +65,17 @@
         function onUpdate(params) {
             window.location.href = '/editItem?oid=' + '<%= data.inventory_id %>';
         }
+
+        /*var mapOptions = {
+            center: [<%=lon%>,<%=lat%>],
+            zoom: 15
+        }
+
+        var map = new L.map('map', mapOptions)
+
+        var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+
+        map.addLayer(layer)*/
     </script>
     <link href="css/default.css" rel="stylesheet"></link>
 </html>

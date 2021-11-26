@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="onload()" id='body_center'>
+        <div id='center'>
+            <div id='card'>
+                <div id='wapper'>
+                    <input type="text" id="input" oninput="oninput()">
+                </div>
+                <br>
+                <button>Search</button>
+                <br>
+                <ul id='list'>
+                    <% var input = document.getElementById('input').value; %>
+                    <% var data =  %>
+                    <% for(var i = 0; i < data.length; i ++) { %>
+                        <li><%= data[i].name %></li>
+                    <% } %>
+                </ul>
+            </div>
+
+        </div>
+    </body>
+    <link href="css/default.css" rel="stylesheet"></link>
+    <script>
+        function onload(){
+            if (localStorage.getItem("uid") == null){
+                window.location.href = "/";
+            }
+        }
+
+        function oninput(){
+            //var input = document.getElementById("input").value;
+            //var data = '';
+            document.getElementById('card').innerHTML = 'fuckyou';
+            /*while(ul.firstChild) ul.removeChild(ul.firstChild);
+            for (var i = 0; i < data.length; i++){
+                if (data[i].name.indexOf(input) != -1){
+                    var li = document.createElement("li");
+                    li.innerHTML = data[i].name;
+                    ul.appendChild(li);
+                }
+            }*/
+        }
+    </script>
+
+</html>

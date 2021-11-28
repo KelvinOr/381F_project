@@ -236,7 +236,9 @@ app.post('/api/updateInventory', (req, res) => {
                   console.log('Error finding user: ', error)
                   } else {
                     console.log(update_result);
-                    res.redirect('/Home?uid=' + uid);
+                    if (update_result){
+                      res.redirect('/Home?uid=' + uid);
+                    }
                   }
               });
             } else {

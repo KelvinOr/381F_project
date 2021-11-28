@@ -25,7 +25,7 @@
     <link href="css/default.css" rel="stylesheet"></link>
     <script>
 
-        var data = <%= JSON.parse( JSON.stringify(data) ) %>
+        var data = <%= JSON.parse( JSON.stringify(data) ) %>;
 
         function onload(){
             if (localStorage.getItem("uid") == null){

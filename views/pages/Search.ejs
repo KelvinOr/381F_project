@@ -14,9 +14,9 @@
                 <br>
                 <button>Search</button>
                 <br>
-                <ul id='list'>
+                <div id='list'>
 
-                </ul>
+                </div>
 
             </div>
 
@@ -33,24 +33,25 @@
             }
 
             var newdata = data.limit(20);
-            var list = document.getElementById("list");
+            //var list = document.getElementById("list");
             for (var i = 0; i < newdata.length; i++){
-                var li = document.createElement("li");
-                li.innerHTML = newdata[i].name.toString();
-                list.appendChild(li);
+                var div = document.createElement("div");
+                div.innerHTML = `<button id='white' onclick="window.location.href = '/viewItem?oid=${newdata[i].inventory_id.toString()}'">${newdata[i].name.toString()}</button><br><br>`
+                //newdata[i].name.toString();
+                document.getElementById("list").appendChild(div);
             }
         }
 
         function input_chanege(){
             var input = document.getElementById("input").value;
             
-            var list = document.getElementById("list");
+            //var list = document.getElementById("list");
             while(list.firstChild) list.removeChild(list.firstChild);
             for (var i = 0; i < data.length; i++){
                 if (data[i].name.indexOf(input) != -1){
-                    var li = document.createElement("li");
-                    li.innerHTML = data[i].name.toString();
-                    list.appendChild(li);
+                    var div = document.createElement("div");
+                    div.innerHTML = `<button id='white' onclick="window.location.href = '/viewItem?oid=${data[i].inventory_id.toString()}'">${data[i].name.toString()}</button><br><br>`
+                    document.getElementById("list").appendChild(div);
                 }
             }
         }

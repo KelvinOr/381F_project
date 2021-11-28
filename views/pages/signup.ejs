@@ -8,9 +8,18 @@
             
             <form action='/api/createUser' method="post" id='signForm'>
                 <h1>Sign Up</h1><br><br>
-                <input type="text" name="userName" id='usN' placeholder="Username" required><br><br>
-                <input type="password" name="password" id='pw' placeholder="Password" required><br><br>
-                <input type="password" id='cpw' placeholder="Confirm Password" required><br><br>
+                <div id='wapper'>
+                    <input type="text" name="userName" id='usN' placeholder="Username" required>
+                </div>
+                <br><br>
+                <div id='wapper'>
+                    <input type="password" name="password" id='pw' placeholder="Password" required>
+                </div>
+                <br><br>
+                <div id='wapper'>
+                    <input type="password" id='cpw' placeholder="Confirm Password" required>
+                </div>
+                <br><br>
                 <button onclick="check()">Sign Up</button>
             </form>
         </div>

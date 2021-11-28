@@ -128,10 +128,6 @@ app.get('/search' ,(req, res) => {
   } 
 });
 
-app.get('/test', (req, res) => {
-  res.render('pages/testpage', {});
-})
-
 //start api
 app.post('/api/createUser', (req, res) => {
     let data = {

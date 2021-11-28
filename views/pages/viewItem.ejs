@@ -25,16 +25,16 @@
                     Country: <%= data.inventory_address.country %> <br>
                     Zipcode: <%= data.inventory_address.zipcode %> <br>
                     Coord: <%= data.inventory_address.coord %>
-                    <% if(data.inventory) {  %> 
+                    <% if(data.inventory_address.coord) {  %> 
                         <div id = "map" style = "width: 900px; height: 580px"></div>
                     <% } %>
                 </div><br>
                 Manager: <%= data.manager %><br><br>
-                <div id='wapper'>
+                <div id='wapper' >
                     <button onclick="deleteItem()">Delete</button>&nbsp;&nbsp;
                     <button onclick="onUpdate()">Update</button>
                 </div><br>
-                <button id='white' onclick="back()">Back</button>
+                <button id='white' onclick="window.location.href = '/Home?uid=' + localStorage.getItem('uid')">Back</button>
             </div>
         </div>
     </body>
@@ -44,10 +44,6 @@
             if(localStorage.getItem('uid') == null){
                 window.location.href = '/';
             }
-        }
-
-        function back() {
-            window.location.href = '/Home?uid=' + localStorage.getItem('uid');
         }
 
         function deleteItem() {
@@ -66,16 +62,20 @@
             window.location.href = '/editItem?oid=' + '<%= data.inventory_id %>';
         }
 
-        /*var mapOptions = {
-            center: [<%=lon%>,<%=lat%>],
-            zoom: 15
+        if (<%= data.inventory_address %>){
+
+            var mapOptions = {
+                center: [<%=data.inventory_address.x%>,<%=data.inventory_address.y%>],
+                zoom: 15
+            }
+
+            var map = new L.map('map', mapOptions)
+
+            var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+
+            map.addLayer(layer)
         }
-
-        var map = new L.map('map', mapOptions)
-
-        var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-
-        map.addLayer(layer)*/
+        
     </script>
     <link href="css/default.css" rel="stylesheet"></link>
 </html>

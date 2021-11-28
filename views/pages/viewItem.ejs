@@ -44,6 +44,20 @@
             if(localStorage.getItem('uid') == null){
                 window.location.href = '/';
             }
+
+            /*if (<%= data.inventory_address %>){
+
+            var mapOptions = {
+                center: [<%=data.inventory_address.x%>,<%=data.inventory_address.y%>],
+                zoom: 15
+            }
+
+            var map = new L.map('map', mapOptions)
+
+            var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+
+            map.addLayer(layer)
+            }*/
         }
 
         function deleteItem() {
@@ -62,19 +76,7 @@
             window.location.href = '/editItem?oid=' + '<%= data.inventory_id %>';
         }
 
-        if (<%= data.inventory_address %>){
-
-            var mapOptions = {
-                center: [<%=data.inventory_address.x%>,<%=data.inventory_address.y%>],
-                zoom: 15
-            }
-
-            var map = new L.map('map', mapOptions)
-
-            var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-
-            map.addLayer(layer)
-        }
+        
         
     </script>
     <link href="css/default.css" rel="stylesheet"></link>

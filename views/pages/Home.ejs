@@ -19,10 +19,10 @@
                     <button id='white' onclick="window.location.href = '/viewItem?oid=<%= element.inventory_id.toString() %>'"><%= element.name %></button>
                     <br><br>               
                 <% }); %>    
-                <% if ( data.length < 10 ) { %>
-                    No more items
-                <% } else { %>
+                <% if ( moreItem ) { %>
                     <button onclick="nextPage()">Next Page</button>
+                <% } else { %>
+                    No More Item
                 <% } %>
             <% } else if ( data.length < 10 &&  start >= 0 && data.length > 0) { %>
                 <button onclick="backPage()">Back Page</button>
@@ -33,6 +33,7 @@
         
     </body>
     <script>
+        var clicked = false
         function onload(){
             if (localStorage.getItem("uid") == null){
                 window.location.href = "/";
@@ -48,14 +49,18 @@
         }
 
         function nextPage() {
-            
-            let urlParams = new URLSearchParams(window.location.search)
-            var startItem = parseInt(urlParams.get('startItem'));
-            if (startItem == null) {
-                startItem = 0
+            if (clicked == false){
+                
+                let urlParams = new URLSearchParams(window.location.search)
+                var startItem = parseInt(urlParams.get('startItem'));
+                if (startItem == null) {
+                    startItem = 0
+                }
+                startItem += 10
+                window.location.href = "/Home?uid=" + localStorage.getItem('uid') + "&startItem=" + startItem
+                clicked = true
             }
-            startItem += 10
-            window.location.href = "/Home?uid=" + localStorage.getItem('uid') + "&startItem=" + startItem
+            
         }
 
         function backPage() {

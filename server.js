@@ -45,15 +45,23 @@ app.get('/Home', (req, res) => {
                 if (dataresult[0].inventory_id == null) {
                   res.render('pages/Home', {data: [], start: startItem});
                 } else {
-                  res.render('pages/Home', {data: dataresult, start: startItem});
+                  if (dataresult.length > 10) {
+                    var res_data = [];
+                    for (var i = 0; i < 10; i++) {
+                        res_data.push(dataresult[i]);
+                    }
+                    res.render('pages/Home', {data: res_data, start: startItem, moreItem: true});
+                  } else{
+                    res.render('pages/Home', {data: dataresult, start: startItem, moreItem: false});
+                  }
                 }
               } else{
                 res.render('pages/Home', {data: [], start: startItem});
               }
-            }).skip(Number(startItem)).limit(10);
+            }).skip(Number(startItem)).limit(11);
             
           } else {
-            res.send('No User');
+            res.send('No User'); 
           }
         }
   });

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+    </head>
+    <body onload="onload()">
+        <div id = "map" style = "width: 50; height: 50px"></div>
+    </body>
+
+    <script>
+        function onload(){
+            if(localStorage.getItem('uid') == null){
+                window.location.href = '/';
+            }
+
+
+            var mapOptions = {
+                center: [<%=lat%>,<%=lot%>],
+                zoom: 15
+            }
+                var map = new L.map('map', mapOptions);
+            
+                // Creating a Layer object
+                var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                
+                // Adding layer to the map
+                map.addLayer(layer);
+                // Creating a marker
+                var marker = L.marker([<%=lat%>,<%=lot%>]);
+                // Adding marker to the map
+                marker.addTo(map);
+            
+        }
+    </script>
+</html>

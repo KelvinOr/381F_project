@@ -128,6 +128,10 @@ app.get('/search' ,(req, res) => {
   } 
 });
 
+app.get('/map', (req, res) => {
+  res.render('pages/map', {lat : req.query.lat, lot: req.query.lot});
+})
+
 //start api
 app.post('/api/createUser', (req, res) => {
     let data = {
@@ -202,7 +206,10 @@ app.post('/api/addInventory', (req, res) => {
         "building": req.body.building,
         "country": req.body.country,
         "zipcode": req.body.zipcode,
-        "coord": req.body.coord
+        "coord": {
+          "lot": req.body.longitude,
+          "lat": req.body.latitude,
+        }
       },
       "manager": req.body.manager,
     }

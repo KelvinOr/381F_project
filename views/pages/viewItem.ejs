@@ -2,8 +2,6 @@
 <html>
     <head>
         <title><%= data.name %></title>
-        <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
-        <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     </head>
     <body onload="onload()" id="card_center">
         <div id='center_30persent'>
@@ -24,10 +22,13 @@
                     Building: <%= data.inventory_address.building %> <br>
                     Country: <%= data.inventory_address.country %> <br>
                     Zipcode: <%= data.inventory_address.zipcode %> <br>
-                    Coord: <%= data.inventory_address.coord %>
-                    <% if(data.inventory_address.coord) {  %> 
-                        <div id = "map" style = "width: 900px; height: 580px"></div>
-                    <% } %>
+                    
+                    <% if(data.inventory_address.coord.lat) {  %> 
+                        Coord: <%= data.inventory_address.coord.lat %> , <%= data.inventory_address.coord.lot %> <br>
+                        <button onclick="onShowMap()">Map</button>
+                    <% } else { %>
+                        Coord: "" <br>
+                    <% } %> 
                 </div><br>
                 Manager: <%= data.manager %><br><br>
                 <div id='wapper' >
@@ -44,20 +45,6 @@
             if(localStorage.getItem('uid') == null){
                 window.location.href = '/';
             }
-
-            /*if (<%= data.inventory_address %>){
-
-            var mapOptions = {
-                center: [<%=data.inventory_address.x%>,<%=data.inventory_address.y%>],
-                zoom: 15
-            }
-
-            var map = new L.map('map', mapOptions)
-
-            var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
-
-            map.addLayer(layer)
-            }*/
         }
 
         function deleteItem() {
@@ -74,6 +61,11 @@
 
         function onUpdate(params) {
             window.location.href = '/editItem?oid=' + '<%= data.inventory_id %>';
+        }
+
+        function onShowMap(){
+            window.location.href = '/map?lat=' + '<%= data.inventory_address.coord.lat %>' + '&lot=' + '<%= data.inventory_address.coord.lot %>';
+            console.log('<%= data.inventory_address.coord.lat %>');
         }
 
         

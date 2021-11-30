@@ -24,11 +24,12 @@
                 <% } else { %>
                     No More Item
                 <% } %>
-            <% } else if ( start > 0 ) { %>
-                <button onclick="backPage()">Back Page</button>
             <% } else {%> 
                 <p>there is no data</p>
             <% } %> 
+            <% if ( start > 0 ) { %>
+                <button onclick="backPage()">Back Page</button>
+            <% } %>
         </div>
         
     </body>

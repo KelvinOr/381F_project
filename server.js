@@ -6,7 +6,7 @@ const ejs = require('ejs');
 const app = express()
 const port = process.env.PORT || 8080;
 
-var { mongoose, User, Inventory } = require('./mongo/mongoController');
+var { mongoose, User, Inventory } = require('./MongoController');
 const req = require('express/lib/request');
 const res = require('express/lib/response');
 

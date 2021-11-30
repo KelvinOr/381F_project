@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "17.1.0"
+    "node": "17.1.0",
+    "npm": "8.1.0"
   },
   "main": "server.js",
   "type": "commonjs",

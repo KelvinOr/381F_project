@@ -176,8 +176,13 @@ app.get('/api/login', (req, res) => {
         console.log('Error finding user: ', err)
         } else {
           console.log('User found: ', result)
-          var userInfo = result.uid.toString();
-          res.render('pages/auth', {uid: userInfo});
+          if (result){
+            var userInfo = result.uid.toString();
+            res.render('pages/auth', {uid: userInfo});
+          } else{
+            res.send("User not found");
+          }
+          
         }
     })
     

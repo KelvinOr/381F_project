@@ -24,7 +24,7 @@
                 <% } else { %>
                     No More Item
                 <% } %>
-            <% } else if ( data.length < 10 &&  start >= 0 && data.length > 0) { %>
+            <% } else if ( start > 0 ) { %>
                 <button onclick="backPage()">Back Page</button>
             <% } else {%> 
                 <p>there is no data</p>

@@ -28,6 +28,7 @@
                 <p>there is no data</p>
             <% } %> 
             <% if ( start > 0 ) { %>
+                <br><br>
                 <button onclick="backPage()">Back Page</button>
             <% } %>
         </div>
@@ -65,14 +66,17 @@
         }
 
         function backPage() {
-            
-            let urlParams = new URLSearchParams(window.location.search)
-            var startItem = parseInt(urlParams.get('startItem'));
-            if (startItem == null) {
-                startItem = 0
+            if (clicked =  false ){
+                let urlParams = new URLSearchParams(window.location.search)
+                var startItem = parseInt(urlParams.get('startItem'));
+                if (startItem == null) {
+                    startItem = 0
+                }
+                startItem -= 10
+                window.location.href = "/Home?uid=" + localStorage.getItem('uid') + "&startItem=" + startItem
+                clicked = true
             }
-            startItem -= 10
-            window.location.href = "/Home?uid=" + localStorage.getItem('uid') + "&startItem=" + startItem
+            
         }
     </script>
     <link href="css/default.css" rel="stylesheet"></link>

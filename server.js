@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const app = express()
-const port = 8080
+const port = 80
 
 var { mongoose, User, Inventory } = require('./mongo/mongoController');
 const req = require('express/lib/request');

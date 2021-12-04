@@ -31,7 +31,7 @@ app.get('/signup', (req, res) => {
 app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
-  if (startItem == undefined || startItem == null || Number.isInteger(startItem) == false) {
+  if (startItem == undefined || Number.isInteger(parseInt(startItem)) == false) {
     startItem = 0;
   }
 
@@ -58,8 +58,10 @@ app.get('/Home', (req, res) => {
               } else{
                 res.render('pages/Home', {data: [], start: startItem});
               }
-            }).skip(Number(startItem)).limit(11);
-            
+              console.log(startItem);
+              
+            }).skip(parseInt(startItem)).limit(11);
+
           } else {
             res.send('No User'); 
           }

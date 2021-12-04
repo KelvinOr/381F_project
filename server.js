@@ -31,7 +31,7 @@ app.get('/signup', (req, res) => {
 app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
-  if (startItem == undefined) {
+  if (startItem == undefined || startItem == null || Number.isInteger(startItem) == false) {
     startItem = 0;
   }
 

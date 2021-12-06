@@ -292,9 +292,38 @@ app.delete('/api/deleteInventory', (req, res) => {
   });
 });
 
-/*
-  
-*/
+
+//RUSTful
+
+app.get('/api/inventory/name/:name', (req, res) => {
+    var inventory_name = req.params.name;
+    Inventory.find({name: inventory_name}, {}, function(err, dataresult) {
+      if (err){
+        res.status(500).send({err: err});
+      } else{
+        if (dataresult.length > 0) {
+          res.status(200).send({massage: dataresult});
+        } else{
+          res.status(200).send({massage: "no Item"});
+        } 
+      }
+    })
+})
+
+app.get('/api/inventory/type/:type', (req, res) => {
+  var inventory_type = req.params.type;
+  Inventory.find({name: inventory_type}, {}, function(err, dataresult) {
+    if (err){
+      res.status(500).send({err: err});
+    } else{
+      if (dataresult.length > 0) {
+        res.status(200).send({massage: dataresult});
+      } else{
+        res.status(200).send({massage: "no Item"});
+      } 
+    }
+  })
+})
 
 //404
 app.use(function(req,res){

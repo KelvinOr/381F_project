@@ -12,24 +12,16 @@
                 </div>
                 <br><br>
                 <div id='wapper'>
-                    <input name="password" id='pw' required placeholder="Password"/>
+                    <input name="password" id='pw' placeholder="Password"/>
                 </div>
                 <br><br>
-                <button onclick="check()">Login</button>
+                <button onclick="login()">Login</button>
             </form>
         </div>
         <script>
-            function check(){
-                var pw = document.getElementById("pw").value;
-                var usN = document.getElementById("usN").value;
-                if (pw == "" || usN == ""){
-                    alert("Please fill in all the fields");
-                }
-                else{
-                    document.getElementById("loginForm").submit();
-                }
-            }
-
+            function login(){
+                document.getElementById("loginForm").submit();
+            
         </script>
         <link href="css/default.css" rel="stylesheet"></link>
     </body>

@@ -236,7 +236,7 @@ app.post('/api/addInventory', (req, res) => {
             if (result != null) {
               var newInventory = new Inventory(inventoryItem);
               newInventory.save();
-              res.redirect('/Home?uid=' + result.uid.toString());
+              res.redirect('/Home?uid=' + result.uid.toString() + 'startItem=10');
             } else {
               res.send('Please Login');
             }

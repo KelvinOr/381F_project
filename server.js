@@ -10,24 +10,28 @@ var { mongoose, User, Inventory } = require('./MongoController');
 const req = require('express/lib/request');
 const res = require('express/lib/response');
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs') // EJS 
 
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(express.static(__dirname + '/public')); // 設置靜態檔案路徑
+app.use(bodyParser.json({limit: '50mb'})); // 設置解析JSON的中介
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true})); // 設置解析URL的中介
 
+// init page
 app.get('/', (req, res) => {
   res.render('pages/index', {});
 });
 
+// login page
 app.get('/login', (req, res) => {
   res.render('pages/login', {});
 });
 
+// register page
 app.get('/signup', (req, res) => {
   res.render('pages/signup', {});
 });
 
+// home page
 app.get('/Home', (req, res) => {
   var uid = req.query.uid;
   var startItem = req.query.startItem;
@@ -35,6 +39,7 @@ app.get('/Home', (req, res) => {
     startItem = 0;
   }
 
+  // mongo db 操作, 操作方法同一般MongoDB 一樣
   User.findOne({uid: uid}, function (err, result) {
     if (err) {
         console.log('Error finding user: ', err)
@@ -144,6 +149,7 @@ app.get('/map', (req, res) => {
 
 //start api
 app.post('/api/createUser', (req, res) => {
+    // 呢到既 req.body 期實可以直接用，佢本身就係個JSON 下面既api 都一樣
     let data = {
       "uid": mongoose.Types.ObjectId().toString(),
       "userName": req.body.userName,
@@ -294,8 +300,9 @@ app.delete('/api/deleteInventory', (req, res) => {
 
 //RUSTful
 
+//RUSTful api ：之後既就係參數
 app.get('/api/inventory/name/:name', (req, res) => {
-    var inventory_name = req.params.name;
+    var inventory_name = req.params.name; //取得參數
     Inventory.find({name: inventory_name}, {}, function(err, dataresult) {
       if (err){
         res.status(500).send({err: err});
@@ -310,7 +317,7 @@ app.get('/api/inventory/name/:name', (req, res) => {
 })
 
 app.get('/api/inventory/type/:type', (req, res) => {
-  var inventory_type = req.params.type;
+  var inventory_type = req.params.type;   //取得參數
   Inventory.find({name: inventory_type}, {}, function(err, dataresult) {
     if (err){
       res.status(500).send({err: err});

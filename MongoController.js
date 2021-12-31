@@ -8,6 +8,7 @@ db.once('open', function() {
   console.log("Successful connection to " + uri)
 });
 
+// Schema 部分，會考，要背
 var UserSchema = mongoose.Schema({
     uid: {type: String, required: true},
     userName: {type: String, required: true},

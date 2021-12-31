@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const uri = "mongodb+srv://admin:admin@cluster0.0gaek.mongodb.net/server_side_project?retryWrites=true&w=majority";
+const uri = ""; // add mongo URL
 mongoose.connect(uri)
 
 var db = mongoose.connection; 
